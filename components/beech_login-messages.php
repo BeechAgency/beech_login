@@ -14,6 +14,7 @@
 
     function BEECH_dashboard_widget_display() {
         $docs_url = get_option('BEECH_login_documentation_link');
+        $custom_message = get_option('BEECH_login_message_box_custom_message');
         ?>
             <div style="
                     display: flex;
@@ -25,6 +26,7 @@
                 ">
                 <div>
                     <p><strong>Hi! Thanks again for working with us here at BEECH.</strong></p> 
+                    <?= $custom_message; ?>
                     <p><?php if($docs_url):?>You can easily access your sites guide and documentation by clicking the button below. <?php endif; ?>If you get stuck, we're here to help. Call 02 4049 9136 or email <a href="mailto:hi@beech.agency">hi@beech.agency</a></p>
                     <?php if($docs_url):?><p><a href="<?= $docs_url ?>" target="_Blank" class="button button-primary">View Guide</a></p><?php endif; ?>
                 </div>

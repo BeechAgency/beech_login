@@ -287,6 +287,18 @@ function BEECH_login_admin_page() {
 								</div>
 							</td>
 						</tr>
+						<tr valign="top">
+							<th scope="row">Custom Message <span class="light">Change the message in the message box.</span></th>
+							<td>
+								<div>
+									<textarea type="text" 
+										name="BEECH_login_message_box_custom_message" 
+										id="BEECH_login_message_box_custom_message" 
+										class="regular-text"
+									><?php print get_option( 'BEECH_login_message_box_custom_message' ); ?></textarea>
+								</div>
+							</td>
+						</tr>
 					</table>
 				</div>
 			</div>
