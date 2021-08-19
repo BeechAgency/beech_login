@@ -113,7 +113,7 @@ class BEECH_Updater {
                     'name'				=> $this->plugin["Name"],
                     'slug'				=> $this->basename,
                     'requires'					=> '5.1',
-                    'tested'						=> '5.7.3',
+                    'tested'						=> '5.8.2',
                     'rating'						=> '100.0',
                     'num_ratings'				=> '5',
                     'downloaded'				=> '5',
