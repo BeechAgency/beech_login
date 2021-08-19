@@ -3,7 +3,7 @@
  * Plugin Name: BEECH Login
  * Plugin URI: https://beech.agency
  * Description: Makes your login screen look amazing!
- * Version: 2.2
+ * Version: 2.3
  * Author: BEECH
  * Author URI: https://beech.agency
  */
