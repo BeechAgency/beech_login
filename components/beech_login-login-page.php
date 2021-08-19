@@ -18,6 +18,8 @@ function BEEECH_login() {
     $left_bg_style = get_option('BEECH_login_left_background_style');
     $full_bg = get_option('BEECH_login_background_full_only');
 
+	$custom_css = get_option('BEECH_login_background_custom_css');
+
 	?>
     <style type="text/css">
         #login h1 a, .login h1 a {
@@ -232,6 +234,7 @@ function BEEECH_login() {
 				margin-right: auto;
 			}
 		}
+		<?= $custom_css ?>
     </style>
 <?php }
 

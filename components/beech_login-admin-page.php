@@ -257,6 +257,18 @@ function BEECH_login_admin_page() {
 								</div>
 							</td>
 						</tr>
+						<tr valign="top">
+							<th scope="row">Login Page Custom CSS<span class="light">Add CSS if you dare. This can break everything.</span></th>
+							<td>
+								<div>
+									<textarea 
+										name="BEECH_login_background_custom_css" 
+										id="BEECH_login_background_custom_css" 
+										class="regular-text"
+									><?php echo get_option( 'BEECH_login_background_custom_css' ); ?></textarea>
+								</div>
+							</td>
+						</tr>
 					</table>
 				</div>
 				<div class="tab-content" id="BEECH-tab3" style="display: none;"><h2>Homepage Message</h2>
