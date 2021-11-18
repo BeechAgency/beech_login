@@ -20,8 +20,6 @@ $updater->set_repository( 'beech_login' );
 */
 $updater->initialize();
 
-
-
  // Set up settings
 if( !function_exists("BEECH_update_login_screen") ) { 
 	function BEECH_update_login_screen() {   
@@ -33,9 +31,9 @@ if( !function_exists("BEECH_update_login_screen") ) {
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_left_background_style' ); 
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_background_full_only' ); 
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_background_custom_css' ); 
-		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_display_message_box' ); 
-		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_documentation_link' ); 
-		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_message_box_custom_message' ); 
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_display_message_box' );  
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_logo' ); 
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_message' ); 
 	}
 }
 

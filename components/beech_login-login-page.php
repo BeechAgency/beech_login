@@ -243,16 +243,27 @@ function BEECH_left_panel() {
 }
 function BEECH_right_panel() {
 	$beech_logo_src = 'https://uploads-ssl.webflow.com/5f02c38ee45cb86d8770ecf2/5fc587838e0dea496885b067_BEECH-round.png';
+	$partner_logo_src = get_option( 'BEECH_login_screen_partnership_logo' );
+	$partnership_message = get_option('BEECH_login_screen_partnership_message');
 
+	if(strlen($partner_logo_src) > 0) {
+		$beech_logo_src = $partner_logo_src;
+	}
+
+	$footer_message = '<a href="https://beech.agency" class="no_underline">We\'re here to help</a>. 02 4049 9136 | <a href="mailto:hi@beech.agency">hi@beech.agency</a>';
+
+	if(strlen($partnership_message) > 0) {
+		$footer_message = $partnership_message;
+	}
 
 	$wp_latest_posts = wp_get_recent_posts(array(
         'numberposts' => 3, // Number of recent posts thumbnails to display
         'post_status' => 'publish' // Show only the published posts
     ));
 
-
-	echo '<div class="beech_footer"><img src="'.$beech_logo_src.'" class="beech_logo" /> <a href="https://beech.agency" class="no_underline">We\'re here to help</a>. 02 4049 9136 | <a href="mailto:hi@beech.agency">hi@beech.agency</a></span></div>';
-	echo '</div><div class="right_panel">';
+	echo '<div class="beech_footer"><img src="'.$beech_logo_src.'" class="beech_logo" /> ';
+	echo $footer_message;
+	echo '</div></div><div class="right_panel">';
 	
 	echo '<h2 class="latest_posts">Latest Posts</h2><ul class="post_list">';
 	foreach($wp_latest_posts as $post) : ?>

@@ -144,6 +144,7 @@ function BEECH_login_admin_page() {
 					<li><button class="tab-link active" onclick="openTab(event, 'BEECH-tab1');" >Login Page Images</button></li>
 					<li><button class="tab-link" onclick="openTab(event, 'BEECH-tab2');" >Login Page Options</button></li>
 					<li><button class="tab-link" onclick="openTab(event, 'BEECH-tab3');" >Homepage Message</button></li>
+					<li id="extrasTab" style="display: none;"><button class="tab-link" onclick="openTab(event, 'BEECH-tab4');" >Extras</button></li>
 					<li><?php submit_button(); ?></li>
 				</ul>
 			</div>
@@ -313,6 +314,40 @@ function BEECH_login_admin_page() {
 						</tr>
 					</table>
 				</div>
+				<div class="tab-content" id="BEECH-tab4" style="display: none;"><h2>Extra Settings and Fun Stuff</h2>
+					<table class="form-table">
+                        <tr valign="top">
+							<th scope="row">Partnership primary logo
+								<span class="light">Replace the Beech logo with someone else?</span>
+							</th>
+							<td>
+								<div>
+									<img src="<?php echo get_option( 'BEECH_login_screen_partnership_logo' ); ?>" class="BEECH-preview-image" />
+									<input type="text" 
+										name="BEECH_login_screen_partnership_logo" 
+										id="BEECH_login_screen_partnership_logo" 
+										class="regular-text"
+										value="<?php echo get_option( 'BEECH_login_screen_partnership_logo' ); ?>"
+										/>
+									<input type="button" name="upload-btn4" id="upload-btn4" class="button-secondary" value="Select Image">
+								</div>
+							</td>
+						</tr>
+						<tr valign="top">
+							<th scope="row">Partnership Message <span class="light">Replace the little Beech bit on the login page.</span></th>
+							<td>
+								<div>
+									<textarea type="text" 
+										name="BEECH_login_screen_partnership_message" 
+										id="BEECH_login_screen_partnership_message" 
+										class="regular-text"
+										rows="4"
+									><?php print get_option( 'BEECH_login_screen_partnership_message' ); ?></textarea>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 
 			
@@ -321,6 +356,12 @@ function BEECH_login_admin_page() {
 
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
+				var params = new URLSearchParams(window.location.search);
+				var extras = params.get('displayextraoptions');
+
+				if(extras) {
+					jQuery('#extrasTab').fadeIn();
+				}
 				$('#upload-btn').click(function(e) {
 					e.preventDefault();
 					var image = wp.media({ 
@@ -377,6 +418,26 @@ function BEECH_login_admin_page() {
 						var image_url = uploaded_image.toJSON().url;
 						// Let's assign the url value to the input field
 						$('#BEECH_login_screen_background_texture').val(image_url);
+					});
+				});
+			});
+			jQuery(document).ready(function($){
+				$('#upload-btn4').click(function(e) {
+					e.preventDefault();
+					var image = wp.media({ 
+						title: 'Upload Image',
+						// mutiple: true if you want to upload multiple files at once
+						multiple: false
+					}).open()
+					.on('select', function(e){
+						// This will return the selected image from the Media Uploader, the result is an object
+						var uploaded_image = image.state().get('selection').first();
+						// We convert uploaded_image to a JSON object to make accessing it easier
+						// Output to the console uploaded_image
+						console.log(uploaded_image);
+						var image_url = uploaded_image.toJSON().url;
+						// Let's assign the url value to the input field
+						$('#BEECH_login_screen_partnership_logo').val(image_url);
 					});
 				});
 			});
