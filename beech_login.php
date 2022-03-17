@@ -47,7 +47,7 @@ function BEECH_login_admin_menu() {
 	 $menu_slug  = 'beech-login-page';  
 	 $function   = 'BEECH_login_admin_page';   
 	 $icon_url   = 'dashicons-media-code';   
-	 $position   = 4;    
+	 $position   = (int) 4;    
 
 	 add_submenu_page( 
 		 $parent_slug,
@@ -55,8 +55,7 @@ function BEECH_login_admin_menu() {
 		 $menu_title,                   
 		 $capability,                   
 		 $menu_slug,                   
-		 $function,                   
-		 $icon_url,                   
+		 $function,                                 
 		 $position 
 	); 
 	add_action( 'admin_init', 'BEECH_update_login_screen' ); 
