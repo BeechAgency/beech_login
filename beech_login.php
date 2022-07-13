@@ -3,7 +3,7 @@
  * Plugin Name: BEECH Login
  * Plugin URI: https://beech.agency
  * Description: Makes your login screen look amazing!
- * Version: 2.5
+ * Version: 2.7
  * Author: BEECH
  * Author URI: https://beech.agency
  */
@@ -34,6 +34,7 @@ if( !function_exists("BEECH_update_login_screen") ) {
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_display_message_box' );  
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_logo' ); 
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_message' ); 
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_message_box_custom_message' );
 	}
 }
 
