@@ -210,7 +210,7 @@ function BEECH_login_admin_page() {
 							<th scope="row">Primary Colour <span class="light">If using a hex, include the hash.</span></th>
 							<td>
 								<div>
-									<input type="text" 
+									<input type="color" 
 										name="BEECH_login_screen_primary_color" 
 										id="BEECH_login_screen_primary_color" 
 										class="regular-text"
@@ -223,7 +223,7 @@ function BEECH_login_admin_page() {
 							<th scope="row">Secondary Colour <span class="light">If using a hex, include the hash.</span></th>
 							<td>
 								<div>
-									<input type="text" 
+									<input type="color" 
 										name="BEECH_login_screen_secondary_color" 
 										id="BEECH_login_screen_secondary_color" 
 										class="regular-text"
@@ -277,14 +277,8 @@ function BEECH_login_admin_page() {
                         <tr valign="top">
 							<th scope="row">Display Message Box <span class="light">Displays the message box on the dashboard.</span></th>
 							<td>
-								<div>
-									<input type="text" 
-										name="BEECH_login_display_message_box" 
-										id="BEECH_login_display_message_box" 
-										class="regular-text"
-										value="<?php echo get_option( 'BEECH_login_display_message_box' ); ?>"
-										/>
-								</div>
+                                <input type="radio" name="BEECH_login_display_message_box" value="1" <?php checked( '1', get_option( 'BEECH_login_display_message_box' ) ); ?> /> Yes
+                                <input type="radio" name="BEECH_login_display_message_box" value="0" <?php checked( '0', get_option( 'BEECH_login_display_message_box' ) ); ?> /> No
 							</td>
 						</tr>
 						<tr valign="top">

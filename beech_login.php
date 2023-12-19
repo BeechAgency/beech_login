@@ -35,6 +35,7 @@ if( !function_exists("BEECH_update_login_screen") ) {
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_logo' ); 
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_screen_partnership_message' ); 
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_message_box_custom_message' );
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_documentation_link' );
 	}
 }
 
