@@ -129,6 +129,9 @@ function BEECH_login_admin_page() {
 			margin-top: 10px;
 			font-size: 0.9em;
 		}
+		.form-table input[type=radio] + input[type=radio] {
+			margin-left: 1rem;
+		}
 	</style>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">BEECH Login Page</h1> 
@@ -248,14 +251,30 @@ function BEECH_login_admin_page() {
 						<tr valign="top">
 							<th scope="row">Only display the Background on the body<span class="light">True or false, makes the background image stretch under the left side.</span></th>
 							<td>
-								<div>
-									<input type="text" 
-										name="BEECH_login_background_full_only" 
-										id="BEECH_login_background_full_only" 
-										class="regular-text"
-										value="<?php echo get_option( 'BEECH_login_background_full_only' ); ?>"
-									/>
-								</div>
+                                <input type="radio" name="BEECH_login_background_full_only" value="1" <?php checked( '1', get_option( 'BEECH_login_background_full_only' ) ); ?> /> Yes
+                                <input type="radio" name="BEECH_login_background_full_only" value="0" <?php checked( '0', get_option( 'BEECH_login_background_full_only' ) ); ?> /> No
+							</td>
+						</tr>
+						</tr>
+                        <tr valign="top">
+							<th scope="row">Invert Logo <span class="light">Invert the logo and footer text.</span></th>
+							<td>
+                                <input type="radio" name="BEECH_login_invert_logo" value="1" <?php checked( '1', get_option( 'BEECH_login_invert_logo' ) ); ?> /> Yes
+                                <input type="radio" name="BEECH_login_invert_logo" value="0" <?php checked( '0', get_option( 'BEECH_login_invert_logo' ) ); ?> /> No
+							</td>
+						</tr>
+                        <tr valign="top">
+							<th scope="row">Hide Language Switcher <span class="light">It's big and unnecessary for most people.</span></th>
+							<td>
+                                <input type="radio" name="BEECH_login_hide_language_switcher" value="1" <?php checked( '1', get_option( 'BEECH_login_hide_language_switcher' ) ); ?> /> Yes
+                                <input type="radio" name="BEECH_login_hide_language_switcher" value="0" <?php checked( '0', get_option( 'BEECH_login_hide_language_switcher' ) ); ?> /> No
+							</td>
+						</tr>
+                        <tr valign="top">
+							<th scope="row">Display Latest Posts on Login Page <span class="light">Displays the latest posts on the login page - because why not?</span></th>
+							<td>
+                                <input type="radio" name="BEECH_login_posts_on_login_page" value="1" <?php checked( '1', get_option( 'BEECH_login_posts_on_login_page' ) ); ?> /> Yes
+                                <input type="radio" name="BEECH_login_posts_on_login_page" value="0" <?php checked( '0', get_option( 'BEECH_login_posts_on_login_page' ) ); ?> /> No
 							</td>
 						</tr>
 						<tr valign="top">
@@ -266,6 +285,7 @@ function BEECH_login_admin_page() {
 										name="BEECH_login_background_custom_css" 
 										id="BEECH_login_background_custom_css" 
 										class="regular-text"
+										rows="12"
 									><?php echo get_option( 'BEECH_login_background_custom_css' ); ?></textarea>
 								</div>
 							</td>
