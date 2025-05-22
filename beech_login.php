@@ -3,7 +3,7 @@
  * Plugin Name: BEECH Login
  * Plugin URI: https://beech.agency
  * Description: Makes your login screen look amazing!
- * Version: 3.0
+ * Version: 4.0
  * Author: BEECH
  * Author URI: https://beech.agency
  */
@@ -39,6 +39,11 @@ if( !function_exists("BEECH_update_login_screen") ) {
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_posts_on_login_page' );
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_invert_logo' );
 		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_hide_language_switcher' );
+		register_setting( 'BEECH-login-screen-settings', 'BEECH_login_healthcheck_token' );
+
+		if (!get_option('BEECH_login_healthcheck_token')) {
+			update_option('BEECH_login_healthcheck_token', wp_generate_password(32, false));
+		}
 	}
 }
 
@@ -65,6 +70,29 @@ function BEECH_login_admin_menu() {
 	); 
 	add_action( 'admin_init', 'BEECH_update_login_screen' ); 
 }
+
+add_action('rest_api_init', function () {
+    register_rest_route('beech/v1', '/health', [
+        'methods' => 'GET',
+        'callback' => function () {
+            return [
+                'status' => 'ok',
+                'site' => get_bloginfo('name'),
+                'url' => get_bloginfo('url'),
+                'theme_count' => count(wp_get_themes()),
+                'plugin_count' => count(get_plugins()),
+                'wp_version' => get_bloginfo('version'),
+                'timestamp' => current_time('mysql'),
+            ];
+        },
+        'permission_callback' => function () {
+            $token = $_GET['token'] ?? '';
+            $saved_token = get_option('BEECH_login_healthcheck_token');
+
+            return hash_equals($saved_token, $token);
+        },
+    ]);
+});
 
 require 'components/beech_login-login-page.php';
 require 'components/beech_login-admin-page.php';

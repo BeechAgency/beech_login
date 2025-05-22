@@ -83,6 +83,11 @@ class BEECH_Updater {
 
                     $new_files = $this->github_response['zipball_url']; // Get the ZIP
 
+                    // If there are theme assets attached, use those instead!
+                    if( isset($git_response->assets) && is_countable($git_response->assets) && count($git_response->assets) > 0 ) {
+                        $new_files = $git_response->assets[0]->browser_download_url;
+                    }
+
                     $slug = current( explode('/', $this->basename ) ); // Create valid slug
 
                     $plugin = array( // setup our plugin info

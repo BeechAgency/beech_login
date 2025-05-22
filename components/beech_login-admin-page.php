@@ -331,6 +331,21 @@ function BEECH_login_admin_page() {
 				<div class="tab-content" id="BEECH-tab4" style="display: none;"><h2>Extra Settings and Fun Stuff</h2>
 					<table class="form-table">
                         <tr valign="top">
+							<th scope="row">Healthcheck API Token
+								<span class="light">Token from the site to be able to check the health of the site</span>
+							</th>
+							<td>
+								<div>
+									<input type="text" 
+										name="BEECH_login_healthcheck_token" 
+										id="BEECH_login_healthcheck_token" 
+										class="regular-text"
+										value="<?php echo get_option( 'BEECH_login_healthcheck_token' ); ?>"
+										/>
+								</div>
+							</td>
+						</tr>
+                        <tr valign="top">
 							<th scope="row">Partnership primary logo
 								<span class="light">Replace the Beech logo with someone else?</span>
 							</th>
