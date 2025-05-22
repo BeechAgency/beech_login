@@ -79,7 +79,7 @@ add_action('rest_api_init', function () {
             $all_plugins = get_plugins();
             $active_plugins = get_option('active_plugins', []);
             $user_count = count_users();
-
+			$active_theme = wp_get_theme();
 
             return [
                 'status' => 'ok',
@@ -89,6 +89,11 @@ add_action('rest_api_init', function () {
                 'timestamp' => current_time('mysql'),
                 'themes' => [
                     'installed' => count(wp_get_themes()),
+					'active' => [
+                        'name' => $active_theme->get('Name'),
+                        'version' => $active_theme->get('Version'),
+                        'stylesheet' => $active_theme->get_stylesheet(),
+                    ],
                 ],
                 'plugins' => [
                     'installed' => count($all_plugins),
