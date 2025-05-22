@@ -75,14 +75,29 @@ add_action('rest_api_init', function () {
     register_rest_route('beech/v1', '/health', [
         'methods' => 'GET',
         'callback' => function () {
+
+            $all_plugins = get_plugins();
+            $active_plugins = get_option('active_plugins', []);
+            $user_count = count_users();
+
+
             return [
                 'status' => 'ok',
                 'site' => get_bloginfo('name'),
                 'url' => get_bloginfo('url'),
-                'theme_count' => count(wp_get_themes()),
-                'plugin_count' => count(get_plugins()),
-                'wp_version' => get_bloginfo('version'),
+				'wp_version' => get_bloginfo('version'),
                 'timestamp' => current_time('mysql'),
+                'themes' => [
+                    'installed' => count(wp_get_themes()),
+                ],
+                'plugins' => [
+                    'installed' => count($all_plugins),
+                    'active' => count($active_plugins),
+                ],
+                'users' => [
+                    'total' => $user_count['total_users'] ?? 0,
+                    'by_role' => $user_count['avail_roles'] ?? [],
+                ],
             ];
         },
         'permission_callback' => function () {
