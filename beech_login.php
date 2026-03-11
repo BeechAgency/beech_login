@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: BEECH Login
+ * Plugin Name: Beech Agency - Login
  * Plugin URI: https://beech.agency
  * Description: Makes your login screen look amazing!
- * Version: 4.0
- * Author: BEECH
+ * Version: 4.1
+ * Author: Beech Agency
  * Author URI: https://beech.agency
  */
 

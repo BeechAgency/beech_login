@@ -37,16 +37,22 @@ class BEECH_Updater {
 
     private function get_repository_info() {
         if ( is_null( $this->github_response ) ) { // Do we have a response?
-        $args = array();
+            $args = array();
             $request_uri = sprintf( 'https://api.github.com/repos/%s/%s/releases', $this->username, $this->repository ); // Build URI
-            
-        $args = array();
 
             if( $this->authorize_token ) { // Is there an access token?
                 $args['headers']['Authorization'] = "token {$this->authorize_token}"; // Set the headers
             }
 
-            $response = json_decode( wp_remote_retrieve_body( wp_remote_get( $request_uri, $args ) ), true ); // Get JSON and parse it
+            $remote_response = wp_remote_get( $request_uri, $args );
+
+            if ( is_wp_error( $remote_response ) || wp_remote_retrieve_response_code( $remote_response ) !== 200 ) {
+                $this->github_response = null;
+                return;
+            }
+
+            $body = wp_remote_retrieve_body( $remote_response );
+            $response = json_decode( $body, true ); // Get JSON and parse it
 
             if( is_array( $response ) ) { // If it is an array
                 $response = current( $response ); // Get the first item
@@ -77,27 +83,29 @@ class BEECH_Updater {
             if( $checked = $transient->checked ) { // Did Wordpress check for updates?
                 $this->get_repository_info(); // Get the repo info
 
-                $out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
+                if ( is_array( $checked ) && is_array( $this->github_response ) && isset( $this->github_response['tag_name'] ) && isset( $checked[ $this->basename ] ) ) {
+                    $out_of_date = version_compare( $this->github_response['tag_name'], $checked[ $this->basename ], 'gt' ); // Check if we're out of date
 
-                if( $out_of_date ) {
+                    if( $out_of_date ) {
 
-                    $new_files = $this->github_response['zipball_url']; // Get the ZIP
+                        $new_files = $this->github_response['zipball_url']; // Get the ZIP
 
-                    // If there are theme assets attached, use those instead!
-                    if( isset($git_response->assets) && is_countable($git_response->assets) && count($git_response->assets) > 0 ) {
-                        $new_files = $git_response->assets[0]->browser_download_url;
+                        // If there are theme assets attached, use those instead!
+                        if( isset( $this->github_response['assets'] ) && is_array( $this->github_response['assets'] ) && count( $this->github_response['assets'] ) > 0 ) {
+                            $new_files = $this->github_response['assets'][0]['browser_download_url'];
+                        }
+
+                        $slug = current( explode('/', $this->basename ) ); // Create valid slug
+
+                        $plugin = array( // setup our plugin info
+                            'url' => $this->plugin["PluginURI"],
+                            'slug' => $slug,
+                            'package' => $new_files,
+                            'new_version' => $this->github_response['tag_name']
+                        );
+
+                        $transient->response[$this->basename] = (object) $plugin; // Return it in response
                     }
-
-                    $slug = current( explode('/', $this->basename ) ); // Create valid slug
-
-                    $plugin = array( // setup our plugin info
-                        'url' => $this->plugin["PluginURI"],
-                        'slug' => $slug,
-                        'package' => $new_files,
-                        'new_version' => $this->github_response['tag_name']
-                    );
-
-                    $transient->response[$this->basename] = (object) $plugin; // Return it in response
                 }
             }
         }
@@ -113,30 +121,32 @@ class BEECH_Updater {
 
                 $this->get_repository_info(); // Get our repo info
 
-                // Set it to an array
-                $plugin = array(
-                    'name'				=> $this->plugin["Name"],
-                    'slug'				=> $this->basename,
-                    'requires'					=> '5.1',
-                    'tested'						=> '6.0.2',
-                    'rating'						=> '100.0',
-                    'num_ratings'				=> '5',
-                    'downloaded'				=> '5',
-                    'added'							=> '2020-07-08',
-                    'version'			=> $this->github_response['tag_name'],
-                    'author'			=> $this->plugin["AuthorName"],
-                    'author_profile'	=> $this->plugin["AuthorURI"],
-                    'last_updated'		=> $this->github_response['published_at'],
-                    'homepage'			=> $this->plugin["PluginURI"],
-                    'short_description' => $this->plugin["Description"],
-                    'sections'			=> array(
-                        'Description'	=> $this->plugin["Description"],
-                        'Updates'		=> $this->github_response['body'],
-                    ),
-                    'download_link'		=> $this->github_response['zipball_url']
-                );
+                if ( is_array( $this->github_response ) && isset( $this->github_response['tag_name'] ) ) {
+                    // Set it to an array
+                    $plugin = array(
+                        'name'				=> $this->plugin["Name"],
+                        'slug'				=> $this->basename,
+                        'requires'					=> '5.1',
+                        'tested'						=> '6.0.2',
+                        'rating'						=> '100.0',
+                        'num_ratings'				=> '5',
+                        'downloaded'				=> '5',
+                        'added'							=> '2020-07-08',
+                        'version'			=> $this->github_response['tag_name'],
+                        'author'			=> $this->plugin["AuthorName"],
+                        'author_profile'	=> $this->plugin["AuthorURI"],
+                        'last_updated'		=> isset( $this->github_response['published_at'] ) ? $this->github_response['published_at'] : '',
+                        'homepage'			=> $this->plugin["PluginURI"],
+                        'short_description' => $this->plugin["Description"],
+                        'sections'			=> array(
+                            'Description'	=> $this->plugin["Description"],
+                            'Updates'		=> isset( $this->github_response['body'] ) ? $this->github_response['body'] : '',
+                        ),
+                        'download_link'		=> isset( $this->github_response['zipball_url'] ) ? $this->github_response['zipball_url'] : ''
+                    );
 
-                return (object) $plugin; // Return the data
+                    return (object) $plugin; // Return the data
+                }
             }
 
         }
